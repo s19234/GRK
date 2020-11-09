@@ -39,6 +39,9 @@
     <Content Include="Zadania\3_5.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Zadania\4.html">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="server.ts" />
     <Content Include="Main.html">
       <SubType>Code</SubType>
