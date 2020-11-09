@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.js"></script>
+<script type="text/javascript">
+    var canvasSize = 512;
+    var imageSize = 256;
+    var img;
+    var imgArr = {};
+
+    function preload() {
+        img = loadImage("https://raw.githubusercontent.com/scikit-image/scikit-image/master/skimage/data/astronaut.png");
+        imgArr.v = createImage(imageSize, imageSize);
+        imgArr.l = createImage(imageSize, imageSize);
+    }
+
+    function setup() {
+        createCanvas(512, 512);
+        img.resize(256, 256);
+
+        img.loadPixels();
+        imgArr.v.loadPixels();
+        imgArr.l.loadPixels();
+
+        for (x = 0; x < img.width; x++) {
+            for (y = 0; y < img.height; y++) {
+                pos = 4 * (y * img.width + x);
+
+                const rN = img.pixels[pos] / 255;
+                const gN = img.pixels[pos + 1] / 255;
+                const bN = img.pixels[pos + 2] / 255;
+
+                const cmax = Math.max(rN, gN, bN);
+                const cmin = Math.min(rN, gN, bN);
+
+                const v = cmax;
+                const l = (cmax + cmin) / 2;
+
+                const mx = (pos / 4) % 256;
+                const my = (pos / 4) / 256;
+
+                imgArr.v.set(mx, my, 255 * v);
+                imgArr.l.set(mx, my, 255 * l);
+            }
+        }
+
+        imgArr.v.updatePixels();
+        imgArr.l.updatePixels();
+
+        image(imgArr.l, 0, imageSize);
+        image(img, imageSize, imageSize);
+    }
+</script>
